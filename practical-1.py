@@ -2,7 +2,7 @@ import torch, time
 from torch import Tensor
 
 def ex1():
-    print("# ex1 #")
+    print('# ex1 #')
     matrix = Tensor(13, 13).fill_(1)
     
     # Fill 2 to horizontal lines
@@ -35,7 +35,7 @@ def ex2():
 
 
 def ex3():
-    print("# ex3 #")
+    print('# ex3 #')
     dimension = 5000
     a = torch.cuda.FloatTensor(dimension, dimension).normal_()
     b = torch.cuda.FloatTensor(dimension, dimension).normal_()
@@ -48,6 +48,7 @@ def ex3():
 
 
 def ex4():
+    print('# ex4 #')
     def mul_row(matrix):
         for i in range(0, matrix.size(0)):
             for j in range(0, matrix.size(1)):
@@ -69,7 +70,11 @@ def ex4():
     print('mul_row: {0:.2f}'.format(time2 - time1))
     print('mul_row_fast: {0:.2f}'.format(time3 - time2))
 
+
 def main():
+    ex1()
+    ex2()
+    ex3()
     ex4()
 
 

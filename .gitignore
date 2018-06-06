@@ -1,4 +1,4 @@
 .vscode/
-__pycache__/
-data/
+practical/__pycache__/
+practical/data/
 .ipynb_checkpoints/

@@ -1,9 +1,9 @@
 import torch
-import practical-prologue as prologue
+import practical_prologue as prologue
+
 
 
 # ex1 #
-
 def sigma(x):
     # tanh(x)
     return x.tanh()
@@ -25,7 +25,6 @@ def dloss(v, t):
 
 
 # ex3 #
-
 def forward_pass(w1, b1, w2, b2, x):
     x0 = x
     s1 = w1.mv(x0) + b1
@@ -54,7 +53,6 @@ def backward_pass(w1, b1, w2, b2,
 
 
 # ex4 #
-
 def main():
     train_input, train_target, test_input, test_target = prologue.load_data(one_hot_labels = True,
                                                                         normalize = True)

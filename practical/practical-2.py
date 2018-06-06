@@ -1,6 +1,6 @@
 import torch
 from torch import Tensor
-import practical-prologue as prologue
+import practical_prologue as prologue
 
 
 def nearest_classification(train_input, train_target, x):

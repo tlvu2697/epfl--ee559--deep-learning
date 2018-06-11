@@ -15,7 +15,6 @@ def dsigma(x):
 
 
 # ex2 #
-
 def loss(v, t):
     return (v - t).pow(2).sum()
 

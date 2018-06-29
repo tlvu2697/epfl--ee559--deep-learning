@@ -1,4 +1,5 @@
 .vscode/
 practical/__pycache__/
 practical/data/
+practical/data_bci/
 .ipynb_checkpoints/

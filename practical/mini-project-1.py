@@ -21,14 +21,12 @@ class Net(nn.Module):
         self.conv1 = nn.Conv1d(28, 56, kernel_size=5)
         self.conv2 = nn.Conv1d(56, 112, kernel_size=5)
         self.fc1 = nn.Linear(224, nb_hidden)
-        # self.do = nn.Dropout(p=0.5)
         self.fc2 = nn.Linear(nb_hidden, 2)
 
     def forward(self, x):
         x = F.relu(F.max_pool1d(self.conv1(x), kernel_size=4, stride=4))
         x = F.relu(F.max_pool1d(self.conv2(x), kernel_size=3, stride=3))
         x = F.relu(self.fc1(x.view(-1, 224)))
-        # x = self.do(x)
         x = self.fc2(x)
         return x
 
@@ -45,17 +43,6 @@ def load_model(path):
         return None
 
 
-def save_config(config, path):
-    with open(path, 'wb') as f:
-        pickle.dump(config, f)
-
-
-def load_config(path):
-    with open(path, 'rb') as f:
-        config = pickle.load(f)
-    return config
-
-
 def train_model(model, train_input, train_target, model_path=None, learning_rate=1e-3, epochs=5000):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr = learning_rate)
@@ -68,7 +55,7 @@ def train_model(model, train_input, train_target, model_path=None, learning_rate
         optimizer.step()
         print(loss)
 
-    torch.save(model, model_path)
+    save_model(model, model_path)
     
 
 def compute_nb_errors(model, input, target):
@@ -86,12 +73,17 @@ test_input, test_target = bci.load(root = './data_bci', train=False)
 test_input, test_target = Variable(test_input).cuda(), Variable(test_target).cuda()
 
 
-#--- Parameter
-model = load_model('mini-project-1.pth.tar')
+#--- Train mode
+model = Net().cuda()
+train_model(model, train_input, train_target, 'model/mini-project-1.pth.tar')
 
 
-# train_model(model, train_input, train_target, 'mini-project-1.pth.tar')
+#--- Predict mode
+model = load_model('model/mini-project-1.pth.tar').cuda()
+
+
+#--- Statistic 
 train_error = compute_nb_errors(model, train_input, train_target)
 test_error = compute_nb_errors(model, test_input, test_target)
-print('--TRAIN ERROR: {:.2f}% - {} / {}'.format(train_error / train_target.size(0), train_error, train_target.size(0)))
+print('--TRAIN ERROR: {:.2f}% - {} / {}'.format(train_error * 100/ train_target.size(0), train_error, train_target.size(0)))
 print('--TEST ERROR: {:.2f}% - {} / {}'.format(test_error * 100 / test_target.size(0), test_error, test_target.size(0)))
